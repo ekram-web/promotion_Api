@@ -25,19 +25,21 @@ Route::post('/contact-message', [ContactMessageController::class, 'store']);
 Route::prefix('admin')->group(function () {
     // Hero management
     Route::apiResource('hero', HeroController::class)->except(['index']);
-    
+
     // About management
     Route::apiResource('about', AboutController::class)->except(['index']);
-    
+
     // Promotion management
     Route::apiResource('promotion', PromotionController::class)->except(['index']);
-    
+
     // Review management
     Route::apiResource('reviews', ReviewController::class)->except(['index']);
-    
+
     // Contact management
     Route::apiResource('contact', ContactController::class)->except(['index']);
+
     
+
     // Contact messages management
     Route::apiResource('contact-messages', ContactMessageController::class);
     Route::get('/contact-messages/pending/count', [ContactMessageController::class, 'pendingCount']);
