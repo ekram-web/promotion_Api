@@ -15,9 +15,10 @@ use App\Http\Controllers\Api\OfferController as AdminOfferController;
 
 // Admin routes (protected with auth middleware)
 // Route::prefix('admin')->name('admin.')->middleware(['web', 'auth'])->group(function () {
+ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::prefix('admin')->name('admin.')->middleware(['web'])->group(function () {
     // Dashboard
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
 
     // Hero management
     Route::resource('hero', AdminHeroController::class);
