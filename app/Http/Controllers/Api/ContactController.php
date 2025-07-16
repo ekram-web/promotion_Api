@@ -1,4 +1,5 @@
 <?php
+<?php
 
 namespace App\Http\Controllers\Api;
 
@@ -11,7 +12,20 @@ class ContactController extends Controller
     // For API: GET /api/contact-info
     public function apiIndex()
     {
-        return response()->json(Contact::first());
+        $contact = Contact::first();
+        if (!$contact) {
+            return response()->json(null);
+        }
+        // Return mapUrl for frontend compatibility
+        return response()->json([
+            'address' => $contact->address,
+            'phone' => $contact->phone,
+            'email' => $contact->email,
+            'website' => $contact->website,
+            'mapUrl' => $contact->map_embed_url,
+            'social_media' => $contact->social_media,
+            'working_hours' => $contact->working_hours,
+        ]);
     }
 
     // For admin: GET /admin/contact
@@ -28,7 +42,9 @@ class ContactController extends Controller
             'phone' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'website' => 'nullable|url|max:255',
-            'social_media' => 'nullable|array'
+            'map_embed_url' => 'nullable|string',
+            'social_media' => 'nullable|array',
+            'working_hours' => 'nullable|array',
         ]);
         try {
             Contact::create($data);
@@ -51,7 +67,9 @@ class ContactController extends Controller
             'phone' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'website' => 'nullable|url|max:255',
-            'social_media' => 'nullable|array'
+            'map_embed_url' => 'nullable|string',
+            'social_media' => 'nullable|array',
+            'working_hours' => 'nullable|array',
         ]);
         try {
             $contact = Contact::findOrFail($id);
@@ -85,4 +103,4 @@ class ContactController extends Controller
         $contact = Contact::findOrFail($id);
         return view('admin.contact.edit', compact('contact'));
     }
-} 
+}
