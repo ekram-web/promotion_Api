@@ -74,8 +74,8 @@
             </div>
             <!-- Navigation Links -->
             <nav class="flex-1 px-2 py-6 space-y-2">
-                <a href="{{ route('admin.dashboard') }}" class="relative flex items-center gap-3 px-4 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-blue-100 dark:hover:bg-blue-900/30 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-yellow-300 font-bold' : 'text-gray-700 dark:text-gray-200' }}">
-                    @if(request()->routeIs('admin.dashboard'))
+                <a href="{{ route('dashboard') }}" class="relative flex items-center gap-3 px-4 py-2 rounded-lg text-base font-medium transition-colors duration-200 hover:bg-blue-100 dark:hover:bg-blue-900/30 {{ request()->routeIs('dashboard') ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-yellow-300 font-bold' : 'text-gray-700 dark:text-gray-200' }}">
+                    @if(request()->routeIs('dashboard'))
                         <span class="absolute left-0 top-2 bottom-2 w-1 rounded bg-blue-600 dark:bg-yellow-400 transition-all duration-300"></span>
                     @endif
                     <span class="material-icons">dashboard</span>
