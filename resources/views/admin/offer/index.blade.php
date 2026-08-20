@@ -14,11 +14,10 @@
                 <thead class="bg-gradient-to-r from-blue-50 to-blue-100">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Number</th>
                         <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Title</th>
-                        <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Subtitle</th>
                         <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Description</th>
-                        <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Section Title</th>
-                        <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Section Description</th>
+                        <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Icon</th>
                         <th class="px-6 py-3 text-left text-xs font-extrabold text-blue-900 uppercase tracking-wider whitespace-nowrap">Actions</th>
                     </tr>
                 </thead>
@@ -26,11 +25,10 @@
                     @forelse($offers as $offer)
                         <tr class="hover:bg-blue-50 transition">
                             <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ $offer->id }}</td>
+                            <td class="px-6 py-4 align-top text-gray-800 text-sm" style="direction: rtl;">{{ $offer->num }}</td>
                             <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ $offer->title }}</td>
-                            <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ $offer->subtitle }}</td>
                             <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ Str::limit($offer->description, 40) }}</td>
-                            <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ Str::limit($offer->section_title, 30) }}</td>
-                            <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ Str::limit($offer->section_description, 40) }}</td>
+                            <td class="px-6 py-4 align-top text-gray-800 text-sm">{{ $offer->icon }}</td>
                             <td class="px-6 py-4 align-top whitespace-nowrap">
                                 <a href="{{ route('admin.offers.edit', $offer->id) }}" class="inline-flex items-center justify-center mr-2 p-1 rounded hover:bg-blue-100 transition" aria-label="Edit" title="Edit">
                                     <span class="material-icons text-blue-600 text-lg align-middle">edit</span>

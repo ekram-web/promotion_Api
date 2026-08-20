@@ -10,12 +10,11 @@ class Hero extends Model
     protected $table = 'heros';
 
     protected $fillable = [
-        'title',
-        'subtitle',
-        'background_gradient',
-        'image',
+        'ar',
+        'en',
+        'ref',
         'order',
-        'is_active'
+        'is_active',
     ];
 
     protected $casts = [

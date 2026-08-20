@@ -22,6 +22,8 @@ Route::prefix('admin')->name('admin.')->middleware(['web'])->group(function () {
 
     // Hero management
     Route::resource('hero', AdminHeroController::class);
+    Route::post('hero-images', [AdminHeroController::class, 'updateImages'])->name('hero.images.update');
+    Route::post('hero-images/delete/{field}', [AdminHeroController::class, 'deleteImage'])->name('hero.images.delete');
 
     // About management
     Route::resource('about', AdminAboutController::class);

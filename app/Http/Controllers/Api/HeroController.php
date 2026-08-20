@@ -9,35 +9,77 @@ use Illuminate\Support\Facades\Storage;
 
 class HeroController extends Controller
 {
-    // For API: GET /api/hero
     public function apiIndex()
     {
-        return response()->json(Hero::where('is_active', true)->orderBy('order')->get());
+        $verses = Hero::where('is_active', true)->orderBy('order')->get();
+        $images = \App\Models\HeroImage::first();
+        
+        $verses->transform(function ($verse) use ($images) {
+            $verse->phone_image_1 = $images ? $images->phone_image_1 : null;
+            $verse->phone_image_2 = $images ? $images->phone_image_2 : null;
+            $verse->phone_image_3 = $images ? $images->phone_image_3 : null;
+            return $verse;
+        });
+
+        return response()->json($verses);
     }
 
     // For admin: GET /admin/hero
     public function index()
     {
         $heros = Hero::all();
-        return view('admin.hero.index', compact('heros'));
+        $heroImage = \App\Models\HeroImage::first();
+        return view('admin.hero.index', compact('heros', 'heroImage'));
+    }
+
+    public function updateImages(Request $request)
+    {
+        $request->validate([
+            'phone_image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'phone_image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'phone_image_3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+        ]);
+
+        $heroImage = \App\Models\HeroImage::first() ?? new \App\Models\HeroImage();
+
+        foreach (['phone_image_1', 'phone_image_2', 'phone_image_3'] as $field) {
+            if ($request->hasFile($field)) {
+                if ($heroImage->$field && Storage::disk('public')->exists($heroImage->$field)) {
+                    Storage::disk('public')->delete($heroImage->$field);
+                }
+                $heroImage->$field = $request->file($field)->store('hero-images', 'public');
+            }
+        }
+
+        $heroImage->save();
+
+        return redirect()->route('admin.hero.index')->with('persistent_success', 'Hero images updated successfully!');
+    }
+
+    public function deleteImage($field)
+    {
+        if (in_array($field, ['phone_image_1', 'phone_image_2', 'phone_image_3'])) {
+            $heroImage = \App\Models\HeroImage::first();
+            if ($heroImage && $heroImage->$field) {
+                if (Storage::disk('public')->exists($heroImage->$field)) {
+                    Storage::disk('public')->delete($heroImage->$field);
+                }
+                $heroImage->$field = null;
+                $heroImage->save();
+            }
+        }
+        return redirect()->route('admin.hero.index')->with('persistent_success', 'Image removed successfully!');
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'background_gradient' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'ar' => 'required|string|max:255',
+            'en' => 'required|string|max:255',
+            'ref' => 'required|string|max:255',
             'order' => 'nullable|integer',
             'is_active' => 'boolean'
         ]);
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('hero-images', 'public');
-            $data['image'] = $imagePath;
-        }
 
         try {
             Hero::create($data);
@@ -56,27 +98,15 @@ class HeroController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'background_gradient' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'ar' => 'required|string|max:255',
+            'en' => 'required|string|max:255',
+            'ref' => 'required|string|max:255',
             'order' => 'nullable|integer',
             'is_active' => 'boolean'
         ]);
 
         try {
             $hero = Hero::findOrFail($id);
-            
-            // Handle image upload
-            if ($request->hasFile('image')) {
-                // Delete old image if exists
-                if ($hero->image && Storage::disk('public')->exists($hero->image)) {
-                    Storage::disk('public')->delete($hero->image);
-                }
-                
-                $imagePath = $request->file('image')->store('hero-images', 'public');
-                $data['image'] = $imagePath;
-            }
 
             $hero->update($data);
             return redirect()->route('admin.hero.index')->with('persistent_success', 'Hero updated successfully!');
@@ -89,12 +119,6 @@ class HeroController extends Controller
     {
         try {
             $hero = Hero::findOrFail($id);
-            
-            // Delete image file if exists
-            if ($hero->image && Storage::disk('public')->exists($hero->image)) {
-                Storage::disk('public')->delete($hero->image);
-            }
-            
             $hero->delete();
             return redirect()->route('admin.hero.index')->withSuccess('Hero deleted successfully!');
         } catch (\Exception $e) {

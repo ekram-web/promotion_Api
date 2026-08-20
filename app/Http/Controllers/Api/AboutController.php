@@ -59,7 +59,7 @@ class AboutController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
             'mission' => 'nullable|string',
             'vision' => 'nullable|string',
             'values' => 'nullable|array'

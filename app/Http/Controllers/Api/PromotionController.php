@@ -29,9 +29,9 @@ class PromotionController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'app_store_url' => 'nullable|url|max:255',
             'play_store_url' => 'nullable|url|max:255',
-            'qr_code_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'qr_code_image_playstore' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'phone_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'qr_code_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'qr_code_image_playstore' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'phone_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
             'is_active' => 'boolean'
         ]);
 

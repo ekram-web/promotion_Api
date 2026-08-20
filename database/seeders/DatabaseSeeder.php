@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create admin user
-        User::factory()->create([
+        User::create([
             'name' => 'Admin User',
             'email' => 'admin@basirah.com',
             'password' => bcrypt('password123'),
@@ -43,30 +43,34 @@ class DatabaseSeeder extends Seeder
 
         // Create Hero slides
         Hero::create([
-            'title' => 'Empower Your Qur\'anic Journey',
-            'subtitle' => 'Learn, connect, and grow with Basirah Institute\'s modern tools and global community.',
-            'background_gradient' => 'linear-gradient(120deg, #042048 60%, #01AD88 100%)',
-            'image' => '/images/quran.png',
+            'ar' => 'وَقُل رَّبِّ زِدْنِي عِلْمًا',
+            'en' => '"And say: My Lord, increase me in knowledge."',
+            'ref' => '— Surah Taha, 20:114',
             'order' => 1,
             'is_active' => true
         ]);
 
         Hero::create([
-            'title' => 'Expert Teachers, Authentic Resources',
-            'subtitle' => 'Access certified scholars, interactive lessons, and a supportive learning environment—anytime, anywhere.',
-            'background_gradient' => 'linear-gradient(120deg, #042048 60%, #01AD88 100%)',
-            'image' => '/images/quran.png',
+            'ar' => 'إِنَّمَا يَخْشَى اللَّهَ مِنْ عِبَادِهِ الْعُلَمَاءُ',
+            'en' => '"Indeed, those who fear Allah among His servants are the knowledgeable."',
+            'ref' => '— Surah Fatir, 35:28',
             'order' => 2,
             'is_active' => true
         ]);
 
         Hero::create([
-            'title' => 'Interactive Learning, Real Progress',
-            'subtitle' => 'Track your Qur\'anic studies, join live classes, and connect with a global community—all in one app.',
-            'background_gradient' => 'linear-gradient(120deg, #042048 60%, #01AD88 100%)',
-            'image' => '/images/quran.png',
+            'ar' => 'اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ',
+            'en' => '"Read in the name of your Lord who created."',
+            'ref' => '— Surah Al-Alaq, 96:1',
             'order' => 3,
             'is_active' => true
+        ]);
+
+        // Create Global Hero Images
+        \App\Models\HeroImage::create([
+            'phone_image_1' => '/images/phone_1.png',
+            'phone_image_2' => '/images/phone_2.png',
+            'phone_image_3' => '/images/phone_3.png',
         ]);
 
         // Create Promotion data
@@ -84,24 +88,28 @@ class DatabaseSeeder extends Seeder
         // Create Offers
         $offers = [
             [
-                'title' => 'Simplified',
-                'subtitle' => 'Complex tasks are now simple',
-                'description' => 'Our platform makes complex Qur\'anic learning accessible to everyone, regardless of their background or experience level.'
+                'num' => '١',
+                'title' => 'Simplified Learning',
+                'description' => 'Complex tajweed rules & classical Arabic simplified into intuitive, visual lessons.',
+                'icon' => 'FaBookReader'
             ],
             [
-                'title' => 'Boost Productivity',
-                'subtitle' => 'Perform Tasks in less time',
-                'description' => 'Efficient learning tools and structured courses help you achieve your goals faster and more effectively.'
+                'num' => '٢',
+                'title' => 'Self-Paced Track',
+                'description' => 'Study at your own rhythm anytime with 24/7 mobile access and structured tracking.',
+                'icon' => 'FaClock'
             ],
             [
-                'title' => 'Facilitated learning',
-                'subtitle' => 'Train anyone from anywhere',
-                'description' => 'Our global platform connects learners and teachers worldwide, breaking down geographical barriers.'
+                'num' => '٣',
+                'title' => 'Scholar Mentorship',
+                'description' => 'Direct recitation correction and guidance by certified Islamic scholars.',
+                'icon' => 'FaUsers'
             ],
             [
-                'title' => 'Support',
-                'subtitle' => 'Now it\'s 24/7 support',
-                'description' => 'Round-the-clock assistance ensures you never feel alone in your learning journey.'
+                'num' => '٤',
+                'title' => 'Dedicated Sanctuary',
+                'description' => 'Academic mentors always ready to accompany every step of your study journey.',
+                'icon' => 'FaHeadset'
             ]
         ];
 

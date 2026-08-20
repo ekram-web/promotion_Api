@@ -34,11 +34,10 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'num' => 'nullable|string|max:255',
             'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'section_title' => 'nullable|string|max:255',
-            'section_description' => 'nullable|string',
+            'icon' => 'nullable|string|max:255',
         ]);
         try {
             Offer::create($data);
@@ -61,11 +60,10 @@ class OfferController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
+            'num' => 'nullable|string|max:255',
             'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'section_title' => 'nullable|string|max:255',
-            'section_description' => 'nullable|string',
+            'icon' => 'nullable|string|max:255',
         ]);
         try {
             $offer = Offer::findOrFail($id);
