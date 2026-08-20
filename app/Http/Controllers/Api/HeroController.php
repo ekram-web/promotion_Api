@@ -82,10 +82,13 @@ class HeroController extends Controller
         ]);
 
         try {
-            Hero::create($data);
+            $hero = new Hero($data);
+            $hero->headline = 'Verse ' . rand(100, 999); // Provide default for legacy required column
+            $hero->save();
+            
             return redirect()->route('admin.hero.index')->with('persistent_success', 'Hero created successfully!');
         } catch (\Exception $e) {
-            return back()->withInput()->with('persistent_error', 'An unexpected error occurred. Please try again.');
+            return back()->withInput()->with('persistent_error', 'An unexpected error occurred: ' . $e->getMessage());
         }
     }
 
