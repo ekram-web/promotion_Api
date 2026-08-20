@@ -73,22 +73,26 @@ class HeroController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'ar' => 'required|string|max:255',
             'en' => 'required|string|max:255',
             'ref' => 'required|string|max:255',
             'order' => 'nullable|integer',
-            'is_active' => 'boolean'
         ]);
 
         try {
-            $hero = new Hero($data);
-            $hero->headline = 'Verse ' . rand(100, 999); // Provide default for legacy required column
+            $hero = new Hero();
+            $hero->ar = $request->ar;
+            $hero->en = $request->en;
+            $hero->ref = $request->ref;
+            $hero->order = $request->order ?? 0;
+            $hero->is_active = $request->has('is_active');
+            $hero->headline = 'Verse ' . rand(100, 999);
             $hero->save();
             
             return redirect()->route('admin.hero.index')->with('persistent_success', 'Hero created successfully!');
         } catch (\Exception $e) {
-            return back()->withInput()->with('persistent_error', 'An unexpected error occurred: ' . $e->getMessage());
+            return back()->withInput()->with('persistent_error', 'Error: ' . $e->getMessage());
         }
     }
 
@@ -100,21 +104,25 @@ class HeroController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $request->validate([
             'ar' => 'required|string|max:255',
             'en' => 'required|string|max:255',
             'ref' => 'required|string|max:255',
             'order' => 'nullable|integer',
-            'is_active' => 'boolean'
         ]);
 
         try {
             $hero = Hero::findOrFail($id);
-
-            $hero->update($data);
+            $hero->ar = $request->ar;
+            $hero->en = $request->en;
+            $hero->ref = $request->ref;
+            $hero->order = $request->order ?? 0;
+            $hero->is_active = $request->has('is_active');
+            $hero->save();
+            
             return redirect()->route('admin.hero.index')->with('persistent_success', 'Hero updated successfully!');
         } catch (\Exception $e) {
-            return back()->withInput()->with('persistent_error', 'An unexpected error occurred. Please try again.');
+            return back()->withInput()->with('persistent_error', 'Error: ' . $e->getMessage());
         }
     }
 
