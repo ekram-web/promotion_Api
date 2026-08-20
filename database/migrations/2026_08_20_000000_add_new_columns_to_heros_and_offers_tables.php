@@ -12,16 +12,30 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('heros', function (Blueprint $table) {
-            $table->string('ar')->nullable();
-            $table->string('en')->nullable();
-            $table->string('ref')->nullable();
-            $table->integer('order')->default(0);
-            $table->boolean('is_active')->default(true);
+            if (!Schema::hasColumn('heros', 'ar')) {
+                $table->string('ar')->nullable();
+            }
+            if (!Schema::hasColumn('heros', 'en')) {
+                $table->string('en')->nullable();
+            }
+            if (!Schema::hasColumn('heros', 'ref')) {
+                $table->string('ref')->nullable();
+            }
+            if (!Schema::hasColumn('heros', 'order')) {
+                $table->integer('order')->default(0);
+            }
+            if (!Schema::hasColumn('heros', 'is_active')) {
+                $table->boolean('is_active')->default(true);
+            }
         });
 
         Schema::table('offers', function (Blueprint $table) {
-            $table->string('num')->nullable();
-            $table->string('icon')->nullable();
+            if (!Schema::hasColumn('offers', 'num')) {
+                $table->string('num')->nullable();
+            }
+            if (!Schema::hasColumn('offers', 'icon')) {
+                $table->string('icon')->nullable();
+            }
         });
     }
 
